@@ -16,12 +16,14 @@ There are only a few steps to get going.
 
 1. Start mongose server<pre>
 	cd mongose/
+	make mac
+	# or make linux, make mingw etc
 	./mongose conf.txt</pre>
-2. Visit `http://localhost:8082/rest.html` in your browser
+2. Visit `http://localhost:8082/rest.html` in your browser. You will need to login. The default username and password is «admin« and «admin«.
 3. Write some text, and then hit Save. Note the input field for the filename (and path). This is where the file will end up on your local disk. 
 > Note: you CAN NOT go out of your `www/` folder. 
 Paths like `../../somefile.txt`
-will simple end up in the top level folder (`www/`).
+will simply end up in the top level folder (`www/`).
 
 ## Credits
 * [The mongose web server](https://github.com/valenok/mongoose)
