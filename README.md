@@ -1,12 +1,12 @@
 # Traumtank bare bone proof of concept
-The goal of this repo at this stage ist to illustrate how to use a local RESTfull webserver with brower based editing of text files.
+The goal of this repo at this stage is to illustrate how to use a local RESTful webserver with brower based editing of text files.
 
-The RESTfull server in this case is Mongoose, one of the iimost lightweight webservers out there. It is fully cross-platform and writte in two C files that can be easily compiled and build on most platforms that have a C compiler.
+The RESTful server in this case is Mongoose, one of the iimost lightweight webservers out there. It is fully cross-platform and writte in two C files that can be easily compiled and build on most platforms that have a C compiler.
 
 ## Why do we need a server at all?
 The whole point of this project is to illustrate a all-in-browser content creation. The only reason why a (local) server is needed here is the fact that browers do not have write access to the local filesystem... so we could load files, edit them and... well not save our work.
 
-This is where the lightweight mongoose comes in. Its very small and has not extra dependencies (it vompiles from two C files). It is still very powerfull and most importantly it can act as a RESTfull server (it does GET, PUT and DELETE, implementiong basic WebDAV features).
+This is where the lightweight mongoose comes in. Its very small and has not extra dependencies (it vompiles from two C files). It is still very powerfull and most importantly it can act as a RESTful server (it does GET, PUT and DELETE, implementiong basic WebDAV features).
 
 ## Client side
 The (very simple) client uses the jQuery `$.ajax()` features to load and save (text) files from the www folder. The client (rest.html) is kept intentionally minimalistic for this stage for illustration. A lot can (and will) be done to extend this bare concept. See the maim Traumtank branch for that.
