@@ -5,28 +5,19 @@
 $(document).ready(function() {
   var ta = $('#text');
   ta.html('Hallo Welt');
+  listDir('/');
   
   // bind the load button click
   $('#load').bind('click', function() {
   	var filename = $('#filename').val();
-    $.ajax({
-      url:filename, // 'test.txt',
-      type:'GET',
-      dataType:'text',
-      success:function(data) {
-        ta.html(data);
-      },
-      error:function() {
-        alert('that did not work.');
-      }
-    });
+  	loadFile(filename);
   }); // end bind the load button click
   
 	// bind the save button click
   $('#save').bind('click', function() {
   	var filename = $('#filename').val();
     var data = ta.val();
-    alert('saveing: \n'+data);
+    console.log('saveing: \n'+data);
     $.ajax({
       url:filename, // 'test2.txt',
       type:'PUT',
@@ -38,9 +29,101 @@ $(document).ready(function() {
       	alert('Ooooops.');
       }
     });
-  });
+  });	// end bind the save button click
+  // bind the list button click
+  $('#list').bind('click', function() {
+  	listDir('/');
+  }); // end bind list button click
+}); // end init code
 
-});
+// functions
+
+// trigger rebuild of lising
+function listDir(path) {
+  	$.ajax({
+  		url:path,
+  		type:'PROPFIND', // WebDAV dir listing
+  		success:function (xml) {
+  			buildListing(path, xml);
+  		}
+  	});
+}
+
+function buildListing(path, xml) {
+	var nodes = $('response', xml); // we do NOT use the namespaced d:response as selector (at least in webkit)
+	var entries = [];
+	nodes.each(function() {
+		var href = $('href', this).text();
+		// folder or file?
+		var type = 'file';
+		if ($('collection', this).length > 0) {
+			type = 'dir';
+			// add training slash if needed
+			if (!href.match(/\/$/))	href += '/';
+		}
+		entries.push({
+			type:type, href:href
+		});
+	});
+	
+	// make some html
+	var html = '';
+	for (var n in entries) {
+		var href = entries[n].href;
+		var type = entries[n].type;
+		// don't link to root '/'
+		if (href == '/') {
+			continue;
+		}
+		// don't link to ourselves
+		if (href == path) {
+			// instead do the parent dir
+			href = '../';
+		}
+		html += '<li><a class="'+ type
+		+'" href="'+ href +'">'
+		+ href
+		+ '</li>';
+	}
+	$('#dirlist').html(html);
+	$('#dirlist a').bind('click', function(e) {
+			e.preventDefault(); // don't navigate
+			var link = $(this);
+			if (link.hasClass('file')) {
+				console.log('will load'+link.attr('href'));
+				loadFile(link.attr('href'));
+			} else {
+				// load the dir
+				listDir(link.attr('href'));
+			}
+		});
+	return;
+}
+
+// load a file into textarea
+function loadFile(filename) {
+	console.log(filename);
+    $.ajax({
+      url:filename,
+      type:'GET',
+      dataType:'text',
+      success:function(data) {
+      	console.log(data);
+        $('#text').val(data);
+        $('#filename').val(filename);
+      },
+      error:function() {
+        alert('that did not work.');
+      }
+    });
+}
+
+function xml2string(xml) {
+	var oSerializer = new XMLSerializer();
+  var xmlString = oSerializer.serializeToString(xml);
+  return xmlString;
+}
+
 </script>
 </head>
 <body>
@@ -49,5 +132,7 @@ $(document).ready(function() {
 <br/>
 <input value="load" type="button" id="load"/>
 <input value="save" type="button" id="save"/>
+<input value="list folder" type="button" id="list" />
+<ul id="dirlist"></ul>
 </body>
 </html>
