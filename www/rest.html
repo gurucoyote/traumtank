@@ -1,10 +1,12 @@
 <html>
 <head>
-<script src="www/js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery-1.8.2.min.js"></script>
 <script>
 $(document).ready(function() {
   var ta = $('#text');
   ta.html('Hallo Welt');
+  
+  // bind the load button click
   $('#load').bind('click', function() {
   	var filename = $('#filename').val();
     $.ajax({
@@ -18,7 +20,9 @@ $(document).ready(function() {
         alert('that did not work.');
       }
     });
-  });
+  }); // end bind the load button click
+  
+	// bind the save button click
   $('#save').bind('click', function() {
   	var filename = $('#filename').val();
     var data = ta.val();
