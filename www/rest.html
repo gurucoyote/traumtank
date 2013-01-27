@@ -1,0 +1,49 @@
+<html>
+<head>
+<script src="www/js/jquery-1.8.2.min.js"></script>
+<script>
+$(document).ready(function() {
+  var ta = $('#text');
+  ta.html('Hallo Welt');
+  $('#load').bind('click', function() {
+  	var filename = $('#filename').val();
+    $.ajax({
+      url:filename, // 'test.txt',
+      type:'GET',
+      dataType:'text',
+      success:function(data) {
+        ta.html(data);
+      },
+      error:function() {
+        alert('that did not work.');
+      }
+    });
+  });
+  $('#save').bind('click', function() {
+  	var filename = $('#filename').val();
+    var data = ta.val();
+    alert('saveing: \n'+data);
+    $.ajax({
+      url:filename, // 'test2.txt',
+      type:'PUT',
+      data:data,
+      success:function() {
+      	alert('Server says OK');
+      },
+      error:function() {
+      	alert('Ooooops.');
+      }
+    });
+  });
+
+});
+</script>
+</head>
+<body>
+<input id="filename" value="some/file.txt" /><br/>
+<textarea id="text"></textarea>
+<br/>
+<input value="load" type="button" id="load"/>
+<input value="save" type="button" id="save"/>
+</body>
+</html>
