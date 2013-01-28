@@ -14,18 +14,28 @@ The (very simple) client uses the jQuery `$.ajax()` features to load and save (t
 ## Setup and Usage
 There are only a few steps to get going. 
 
-1. Start mongose server<pre>
-	cd mongose/
-	make mac
-	# or make linux, make mingw etc
-	./mongose conf.txt</pre>
-2. Visit `http://localhost:8082/rest.html` in your browser. You will need to login. The default username and password is «admin« and «admin«.
-3. Write some text, and then hit Save. Note the input field for the filename (and path). This is where the file will end up on your local disk. 
+### Start mongose server
+Open a command line. 
+(Mac: Terminal.app, Windows: cmd.exe)
+Navigate to the folder you put the project into, and there into the mongoose subfolder.
+
+Mac/Unix:
+    cd mongose/
+    ./mongose conf.txt
+> The mac binary in this repo is actually called `mongoose-maci386`
+
+Windows cmd.exe
+    cd mongoose\
+    mongoose.exe conf.txt
+
+### Visit `http://localhost:8080/rest.html` in your browser. You will need to login. The default username and password is «admin« and «admin«.
+### Write some text, and then hit Save. Note the input field for the filename (and path). This is where the file will end up on your local disk. 
 > Note: you CAN NOT go out of your `www/` folder. 
 Paths like `../../somefile.txt`
 will simply end up in the top level folder (`www/`).
-
+> NOTE Windows (MinGW build)
+> it seems the (mingw) windows build can not correctly create new folders when you save a file via PUT. It returns a server response of 500 (Internal Server Error). It can save files into subfolders just fine as long as the folders already exist.
 ## Credits
 * [The mongose web server](https://github.com/valenok/mongoose)
-  >Note: this is not the same mongose as the Node.js related one. Names!
+  > Note: this is not the same mongose as the Node.js related one. Names!
 * [jQuery](http://jquery.com)
