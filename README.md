@@ -1,5 +1,5 @@
 # Traumtank bare bone proof of concept
-The goal of this repo at this stage is to illustrate how to use a local RESTful webserver with brower based editing of text files.
+The goal of this repo at this stage is to illustrate how to use a local RESTful webserver with browser based editing of text files.
 
 The RESTful server in this case is Mongoose, one of the iimost lightweight webservers out there. It is fully cross-platform and writte in two C files that can be easily compiled and build on most platforms that have a C compiler.
 
